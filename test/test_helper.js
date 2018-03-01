@@ -1,10 +1,14 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/users_test').then(() => {
-	console.log('GOOD TO GO!!!');
-}, (error) => {
-	console.warn('CANT CONNECT TO SERVER');
-})
+mongoose.Promise = global.Promise
+
+before((done) => {
+	mongoose.connect('mongodb://localhost/users_test').then(() => {
+		done()
+	}, (error) => {
+		console.warn('CANT CONNECT TO SERVER');
+	})
+});
 
 beforeEach((done) => {
 	mongoose.connection.collections.users.drop(() => {
