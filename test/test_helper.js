@@ -5,3 +5,9 @@ mongoose.connect('mongodb://localhost/users_test').then(() => {
 }, (error) => {
 	console.warn('CANT CONNECT TO SERVER');
 })
+
+beforeEach((done) => {
+	mongoose.connection.collections.users.drop(() => {
+		done()
+	})
+});
