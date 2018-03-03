@@ -23,4 +23,13 @@ describe('Reading User out of the database', () => {
 			console.log(err);
 		});
 	});
+
+	it('Find a user with a id', (done) => {
+		User.findOne({
+			_id: joe._id
+		}).then((user) => {
+			assert(user.name === 'Joe')
+			done()
+		})
+	});
 });
