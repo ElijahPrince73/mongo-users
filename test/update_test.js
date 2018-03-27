@@ -17,16 +17,21 @@ describe('Updating records', () => {
 		operation
 			.then(() => User.find({}))
 			.then((users) => {
-				console.log(users);
 				assert(users.length === 1);
 				assert(users[0].name === 'Alex');
 				done();
 			});
 	}
-	// Mostly used for updating properties in a couple of steps
+	// Mostly used for updating some properties in a couple of steps
 	it('instance type using set n save', (done) => {
-		console.log(joe);
 		joe.set('name', 'Alex');
 		assertName(joe.save(), done);
+	});
+
+	// Updates once and call it done
+	it('Model instance can update', (done) => {
+		assertName(joe.update({
+			name: 'Alex'
+		}), done)
 	});
 });
