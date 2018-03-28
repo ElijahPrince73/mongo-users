@@ -7,7 +7,7 @@ describe('Updating records', () => {
 	beforeEach((done) => {
 		joe = new User({
 			name: 'Joe',
-			likes: 0
+			postCount: 0
 		});
 		joe.save()
 			.then(() => done());
@@ -62,5 +62,24 @@ describe('Updating records', () => {
 			}),
 			done
 		);
+	});
+
+	it('A user can have their post count incremented by 1', (done) => {
+		User.update({
+				name: 'Joe'
+			}, {
+				// This operator will find the key then update it by some value
+				$inc: {
+					postCount: 1 // Decrement -1
+				}
+			}).then(() => {
+				return User.findOne({
+					name: 'Joe'
+				})
+			})
+			.then((user) => {
+				assert(user.postCount === 1)
+				done()
+			})
 	});
 });
