@@ -11,7 +11,8 @@ const UserSchema = new Schema({
 		},
 		required: [true, 'Name is required']
 	},
-	posts: [PostSchema]
+	posts: [PostSchema],
+	likes: Number
 })
 
 // important: need to use the function and not arrow to use the UserSchema
