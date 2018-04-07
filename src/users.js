@@ -12,14 +12,18 @@ const UserSchema = new Schema({
 		required: [true, 'Name is required']
 	},
 	posts: [PostSchema],
-	likes: Number
+	likes: Number,
+	blogPost: [{
+		type: Schema.Types.ObjectId,
+		ref: 'blogPost'
+	}]
 })
 
 // important: need to use the function and not arrow to use the UserSchema
-UserSchema.virtual('postCount').get(function () {
+UserSchema.virtual('postCount').get(function() {
 	return this.posts.length
 })
 
-const User = mongoose.model('user', UserSchema)
+const User = mongoose.model('users', UserSchema)
 
 module.exports = User
