@@ -16,12 +16,12 @@ beforeEach((done) => {
 		comments,
 		blogposts
 	} = mongoose.connection.collections;
-	done()
-	// users.drop(() => {
-	// 	comments.drop(() => {
-	// 		blogposts.drop(() => {
-	// 			done();
-	// 		});
-	// 	});
-	// });
+
+	users.drop(() => {
+		comments.drop(() => {
+			blogposts.drop(() => {
+				done();
+			});
+		});
+	});
 });
