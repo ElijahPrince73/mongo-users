@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const assert = require('assert')
 const User = require('../src/users');
 const Comment = require('../src/comment');
 const BlogPost = require('../src/blogPost');
@@ -7,31 +8,33 @@ describe('Associations', () => {
 	let joe, blogPost, comment
 	beforeEach((done) => {
 		joe = new User({
-			name: "Joe"
-		})
+			name: 'Joe'
+		});
 		blogPost = new BlogPost({
-			title: 'JS is great',
-			content: 'Yeah it is'
-		})
+			title: 'JS is Great',
+			content: 'Yep it really is'
+		});
 		comment = new Comment({
-			content: 'Congrats'
-		})
+			content: 'Congrats on great post'
+		});
 
-		joe.blogPost.push(blogPost)
-		blogPost.comments.push(comment)
-		comment.user = joe
-		// chain together many promises
+		joe.blogPosts.push(blogPost);
+		blogPost.comments.push(comment);
+		comment.user = joe;
+
 		Promise.all([joe.save(), blogPost.save(), comment.save()])
-			.then(() => done())
+			.then(() => done());
+	});
 
-	})
-
-	it.only('saves a relation between a user and a blogPost', (done) => {
-		User.findOne({name: 'Joe'})
-		.then((user) => {
-			console.log(user);
-			done()
-		})
+	it.only('saves a relation between a user and a blogpost', (done) => {
+		User.findOne({
+				name: 'Joe'
+			})
+			.populate('blogPosts')
+			.then((user) => {
+				assert(user.blogPosts[0].title === 'JS is Great');
+				done();
+			});
 	});
 
 });
