@@ -24,6 +24,21 @@ UserSchema.virtual('postCount').get(function() {
 	return this.posts.length
 })
 
+// Need reguler function
+UserSchema.pre('remove', function(next) {
+	// this === Joe
+	const BlogPost = mongoose.model('blogPosts')
+
+	BlogPost.remove({
+			_id: {
+				$in: this.blogPosts
+			}
+		})
+		.then(() => {
+			next()
+		})
+})
+
 const User = mongoose.model('users', UserSchema)
 
 module.exports = User
